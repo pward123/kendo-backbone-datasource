@@ -1,0 +1,6 @@
+# Make sure we don't accidentally push kendo source files into the public repo
+*
+!kendo.backbone.js
+!index.html
+!README.md
+!.gitignore
