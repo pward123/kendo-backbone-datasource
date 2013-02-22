@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Kendo UI and Backbone</title>
+        <link href="http://cdn.kendostatic.com/2012.3.1315/styles/kendo.common.min.css" rel="stylesheet" />
+        <link href="http://cdn.kendostatic.com/2012.3.1315/styles/kendo.default.min.css" rel="stylesheet" />
+        <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+        <script src="http://cdn.kendostatic.com/2012.3.1315/js/kendo.web.min.js"></script>
+        <script src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
+        <script src="http://backbonejs.org/backbone-min.js"></script>
+        <script src="kendo.backbone.js"></script>
+    <!--
+        <link href="kendo.common.min.css" rel="stylesheet" />
+        <link href="kendo.default.min.css" rel="stylesheet" />
+        <script src="jquery-1.8.3.js"></script>
+        <script src="kendo.web.js"></script>
+        <script src="underscore-1.4.3.js"></script>
+        <script src="backbone-0.9.10.js"></script>
+        <script src="kendo.backbone.js"></script>
+    -->
+
+    </head>
+    <body>
+        <h3>Grid</h3>
+        <div id="grid">
+        </div>
+
+        <h3>Backbone collection</h3>
+        <pre id="log">
+        </pre>
+
+        <input id="setBackbone" type="button" value="Set Backbone" />
+        <input id="popBackbone" type="button" value="Pop Backbone" />
+        <input id="pushBackbone" type="button" value="Push Backbone" />
+
+        <script>
+                var latestProductID = 0;
+
+                var Product = Backbone.Model.extend({
+                    idAttribute: "ProductID"
+                });
+
+                var ProductCollection = Backbone.Collection.extend({
+                    model: Product
+                });
+
+                var products = new ProductCollection();
+
+                var product = new Product();
+                product.set("ProductID",latestProductID++);
+                product.set("Name","Food");
+                products.push(product);
+
+                product = new Product();
+                product.set("ProductID",latestProductID++);
+                product.set("Name","Coffee");
+                products.push(product);
+
+                var productsDataSource = new kendo.BackboneDataSource({
+                    backboneModelClass: Product,
+                    backboneCollection: products,
+                    fields: {
+                        ProductID: {
+                            type: "number",
+                        },
+                        Name: {
+                            type: "string",
+                        }
+                    }
+                });
+
+                products.on("change remove add", function() {
+                    $("#log").text(kendo.stringify(products.toJSON()));
+                });
+
+                $("#log").text(kendo.stringify(products.toJSON()));
+
+                $("#grid").kendoGrid({
+                    editable: {
+                        mode: 'inline',
+                        createAt: 'bottom',
+                    },
+                    sortable: true,
+                    toolbar: ["create"],
+                    columns: [
+                        {
+                            field: "ProductID",
+                            title: "Product ID",
+                        },
+                        {
+                            field: "Name",
+                            title: "Name",
+                        },
+                        {
+                            command: ["edit","destroy"]
+                        },
+                    ],
+                    dataSource: productsDataSource
+                });
+
+                $("#setBackbone")
+                    .click(function(event) {
+                        event.preventDefault();
+                        products.at(0).set("Name", "setBackbone");
+                    });
+
+                $("#popBackbone")
+                    .click(function(event) {
+                        event.preventDefault();
+                        products.pop();
+                    });
+
+                $("#pushBackbone")
+                    .click(function(event) {
+                        event.preventDefault();
+                        var newProduct = new Product();
+                        newProduct.set('ProductID', + latestProductID++);
+                        newProduct.set('Name','Product #' + latestProductID);
+                        products.push(newProduct);
+                    });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,20 @@
+A KendoUI DataSource that wraps a Backbone Collection.
+
+The following items are not currently supported: (Listed in order of planned future support)
+  - Sorting
+  - Querying
+  - Paging
+  - Filters
+  - Aggregates
+  - Grouping
+  - Setting of values through the data function
+  * Backbone models with attributes named "id" or "uid" due to conflicts
+    with Kendo's use of these properties.  The Kendo id property is alwayss
+    set to the Backbone's cid value.
+  * options.autoSync
+
+  key: * future support is not planned
+
+Assumptions:
+  - The read function is not implemented (the caller should use Backbone functions instead)
+  - Sync will not automatically call the Backbone sync
