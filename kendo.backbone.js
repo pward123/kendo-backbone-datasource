@@ -109,6 +109,7 @@ kendo.BackboneModel = kendo.data.Model.extend({
     },
 
     destroy: function() {
+        if (TRACE) console.log("BackboneModel.destroy called with " + JSON.stringify(arguments));
         var that = this;
 
         // Stop watching all backbone events
@@ -169,6 +170,7 @@ kendo.BackboneModel = kendo.data.Model.extend({
     // Handler for Backbone "change" events
     //
     _onBackboneChange: function(model, options) {
+        if (TRACE) console.log("BackboneModel._onBackboneChange called with " + JSON.stringify(arguments));
         var that = this;
 
         // Loop through all changed attributes
@@ -188,6 +190,7 @@ kendo.BackboneModel = kendo.data.Model.extend({
     // function bypasses the call to super and triggers the change directly
     //
     _setInternal: function(field, value, initiator) {
+        if (TRACE) console.log("BackboneModel._setInternal called with " + JSON.stringify(arguments));
         var that = this;
         if (!_.isEqual(value, that.get(field))) {
             that._set(field, value);
@@ -371,6 +374,7 @@ kendo.BackboneDataSource = kendo.data.DataSource.extend({
     },
 
     destroy: function() {
+        if (TRACE) console.log("BackboneDataSource.destroy called with " + JSON.stringify(arguments));
         var that = this;
 
         // Stop watching all backbone events
