@@ -11,10 +11,9 @@ The following items are not currently supported: (Listed in order of planned fut
   * Backbone models with attributes named "id" or "uid" due to conflicts
     with Kendo's use of these properties.  The Kendo id property is alwayss
     set to the Backbone's cid value.
-  * options.autoSync
+  * options.autoSync is assumed to be on, but sync only copies the values to backbone. It does not call backbone sync
 
   key: * future support is not planned
 
 Assumptions:
   - The read function is not implemented (the caller should use Backbone functions instead)
-  - Sync will not automatically call the Backbone sync

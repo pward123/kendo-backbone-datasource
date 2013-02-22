@@ -758,9 +758,6 @@ kendo.BackboneDataSource = kendo.data.DataSource.extend({
         // If the model is in our list
         index = that.indexOf(kendoModel);
         if (index > -1) {
-            // Get a reference to the backbone model
-            backbone = kendoModel._backbone;
-
             // Remove the model from _kendoModelsByID
             delete that._kendoModelsByID[kendoModel.id];
 
@@ -768,8 +765,8 @@ kendo.BackboneDataSource = kendo.data.DataSource.extend({
             that._models.splice(index,1);
 
             // Remove the backbone model from the that._collection
-            if (isSpecified(backbone)) {
-                that._collection.remove(backbone, {
+            if (isSpecified(kendoModel._backbone)) {
+                that._collection.remove(kendoModel._backbone, {
                     ignoreBBEvent: true,
                 });
             }
